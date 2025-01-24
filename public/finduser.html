@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find User</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
+        }
+
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Find User</h1>
+        <form id="findUserForm">
+            <div class="form-group">
+                <label for="searchOption">Search By</label>
+                <select id="searchOption" name="searchOption" required>
+                    <option value="">Select an option</option>
+                    <option value="phoneNo">Phone Number</option>
+                    <option value="email">Email</option>
+                    <option value="adharNumber">Aadhar Number</option>
+                    <option value="panNo">PAN Number</option>
+                    <option value="dlNo">Driving License Number</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="searchValue">Enter Search Value</label>
+                <input type="text" id="searchValue" name="searchValue" required>
+            </div>
+            <div class="buttons">
+                <button type="button" onclick="findUser()">Find User</button>
+            </div>
+        </form>
+
+        <div id="userResults" class="results" style="display: none;"></div>
+    </div>
+
+    <script>
+        function findUser() {
+            const form = document.getElementById('findUserForm');
+            const searchOption = form.searchOption.value;
+            const searchValue = form.searchValue.value;
+
+            if (!searchOption || !searchValue) {
+                alert("Please select a search option and enter a value.");
+                return;
+            }
+
+            fetch(`/findUser?searchOption=${searchOption}&searchValue=${searchValue}`, {
+                method: 'GET',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const userResults = document.getElementById('userResults');
+                    userResults.style.display = 'block';
+
+                    if (data.length === 0) {
+                        userResults.innerHTML = '<p>No user found for the given search criteria.</p>';
+                    } else {
+                        let output = '<h2>User Found</h2><ul>';
+                        // Loop through the user data to display the details
+                        data.forEach(user => {
+
+                            function formatDate(dateString) {
+                                const date = new Date(dateString);
+                                const day = String(date.getDate()).padStart(2, '0');  // Adds leading zero if day < 10
+                                const month = String(date.getMonth() + 1).padStart(2, '0');  // getMonth() is 0-based, so adding 1
+                                const year = date.getFullYear();
+
+                                return `${day}/${month}/${year}`;
+                            }
+
+                            output += `
+                            <ul>
+                                <li style="margin-bottom: 10px;"><strong>First Name:</strong> ${user.first_name}</li>
+                                <li style="margin-bottom: 10px;"><strong>Last Name:</strong> ${user.last_name}</li>
+                                <li style="margin-bottom: 10px;"><strong>Date of Birth:</strong> ${formatDate(user.dob)}</li>
+                                <li style="margin-bottom: 10px;"><strong>Gender:</strong> ${user.gender}</li>
+                                <li style="margin-bottom: 10px;"><strong>Blood Group:</strong> ${user.blood_group}</li>
+                                <li style="margin-bottom: 10px;"><strong>Phone Number:</strong> ${user.phone_no}</li>
+                                <li style="margin-bottom: 10px;"><strong>Emergency Contact 2:</strong> ${user.emergency_contact_1}</li>
+                                <li style="margin-bottom: 10px;"><strong>Emergency Contact 3:</strong> ${user.emergency_contact_2}</li>
+                                <li style="margin-bottom: 10px;"><strong>Aadhar Number:</strong> ${user.aadhar_number}</li>
+                                <li style="margin-bottom: 10px;"><strong>PAN Number:</strong> ${user.pan_number}</li>
+                                <li style="margin-bottom: 10px;"><strong>Driving License Number:</strong> ${user.driving_license}</li>
+                                <li style="margin-bottom: 10px;"><strong>Occupation:</strong> ${user.occupation}</li>
+                                <li style="margin-bottom: 10px;"><strong>Address:</strong> ${user.address}</li>
+                                <li style="margin-bottom: 10px;"><strong>Email:</strong> ${user.email}</li>
+                                <li style="margin-bottom: 10px;"><strong>Marital Status:</strong> ${user.marital_status}</li>
+                                <li style="margin-bottom: 10px;"><strong>Diabetes:</strong> ${user.diabetes}</li>
+                                <li style="margin-bottom: 10px;"><strong>Blood Pressure:</strong> ${user.blood_pressure}</li>
+                                <li style="margin-bottom: 10px;"><strong>Photo:</strong> 
+                                    <img src="${user.photo}" alt="User Photo" style="width:100px; height:auto; border-radius:5px;">
+                                </li>
+                            </ul>
+                        `;
+                        });
+                        output += '</ul>';
+                        userResults.innerHTML = output;
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+    </script>
+</body>
+
+</html>
