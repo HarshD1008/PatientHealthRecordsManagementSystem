@@ -88,6 +88,7 @@
                     <option value="adharNumber">Aadhar Number</option>
                     <option value="panNo">PAN Number</option>
                     <option value="dlNo">Driving License Number</option>
+                    <option value="userid">User ID</option>
                 </select>
             </div>
             <div class="form-group">
@@ -97,10 +98,16 @@
             <div class="buttons">
                 <button type="button" onclick="findUser()">Find User</button>
             </div>
-        </form>
-
-        <div id="userResults" class="results" style="display: none;"></div>
+            
+            <div id="userResults" class="results" style="display: none;"></div>
+            <div class="buttons">
+                <button type="button" id="admitButton" style="display: none;" onclick="admitUser()">Admit User</button>
+            
+        </div>
     </div>
+
+
+    </form>
 
     <script>
         function findUser() {
@@ -159,9 +166,11 @@
                                 <li style="margin-bottom: 10px;"><strong>Photo:</strong> 
                                     <img src="${user.photo}" alt="User Photo" style="width:100px; height:auto; border-radius:5px;">
                                 </li>
-                            </ul>
-                        `;
+                                </ul>
+                            
+                            `;
                         });
+                        document.getElementById('admitButton').style.display = 'inline-block';
                         output += '</ul>';
                         userResults.innerHTML = output;
                     }

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #218821;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Hospital Dashboard</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Doe</td>
+                <td>
+                    <button onclick="viewDocument('John Doe')">View Document</button>
+                    <button onclick="dischargePatient('John Doe')">Discharge</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Jane Smith</td>
+                <td>
+                    <button onclick="viewDocument('Jane Smith')">View Document</button>
+                    <button onclick="dischargePatient('Jane Smith')">Discharge</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Michael Johnson</td>
+                <td>
+                    <button onclick="viewDocument('Michael Johnson')">View Document</button>
+                    <button onclick="dischargePatient('Michael Johnson')">Discharge</button>
+                </td>
+            </tr>
+            <tr>
+                <td>Emily Davis</td>
+                <td>
+                    <button onclick="viewDocument('Emily Davis')">View Document</button>
+                    <button onclick="dischargePatient('Emily Davis')">Discharge</button>
+                </td>
+            </tr>
+            <!-- Add more rows dynamically as needed -->
+        </tbody>
+    </table>
+
+    <script>
+        function viewDocument(patientName) {
+            alert(`Viewing documents for ${patientName}`);
+        }
+
+        function dischargePatient(patientName) {
+            if (confirm(`Are you sure you want to discharge ${patientName}?`)) {
+                alert(`${patientName} has been discharged.`);
+            }
+        }
+    </script>
+
+</body>
+</html>

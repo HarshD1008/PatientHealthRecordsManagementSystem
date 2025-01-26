@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <style>
+        /* CSS for styling the webpage */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .thank-you-container {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555555;
+        }
+
+        .user-id {
+            font-weight: bold;
+            color: #333333;
+            font-size: 18px;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #aaaaaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you-container">
+        <h1>Thank You for Registering!</h1>
+        <p>Your User ID is: <span class="user-id" id="userId"></span></p>
+        <footer>&copy; Hospital Management System </footer>
+    </div>
+
+    <script>
+        // JavaScript to get the UserID from the URL and display it
+        document.addEventListener("DOMContentLoaded", function() {
+            // Function to retrieve query parameters
+            function getQueryParam(param) {
+                const params = new URLSearchParams(window.location.search);
+                return params.get(param);
+            }
+
+            // Retrieve the user ID from the URL
+            const userId = getQueryParam("userid");
+            
+            // Display the user ID on the page
+            const userIdElement = document.getElementById("userId");
+            if (userId) {
+                userIdElement.textContent = userId;
+            } else {
+                userIdElement.textContent = "Unknown";
+            }
+        });
+    </script>
+</body>
+</html>
